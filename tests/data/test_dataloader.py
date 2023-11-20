@@ -58,23 +58,3 @@ def test_dataloader_reaction_network():
         assert np.allclose(labels["value"], ref_label_class)
     """
 
-
-def test_dataloader_reaction_network_precompute():
-    # TODO: test precompute variant
-    pass
-    extra_keys = []
-
-    """dataset = ReactionNetworkDatasetPrecomputed(
-        grapher=get_grapher(extra_keys),
-        file=dataset_loc,
-        target=config["target_var"],
-        classifier=config["classifier"],
-        classif_categories=config["classif_categories"],
-        filter_species=config["filter_species"],
-        filter_outliers=config["filter_outliers"],
-        filter_sparse_rxns=False,
-        debug=debug,
-        device=device,
-        extra_keys=extra_keys,
-        extra_info=config["extra_info"],
-    )"""

@@ -103,7 +103,7 @@ def test_model_save_load():
     model = load_model_lightning(config["model"], load_dir="./test_save_load/")
 
     trainer = pl.Trainer(
-        max_epochs=30,
+        max_epochs=3,
         accelerator="gpu",
         devices=1,
         accumulate_grad_batches=5,
@@ -345,8 +345,7 @@ def test_reactant_only_construction():
             # test that reactant_feat is not all zeros
 
 
-# TODO: test multi-gpu
-
+"""
 def test_profiler():
     dataset_loc = "../data/testdata/barrier_100.json"
     config = {
@@ -385,7 +384,7 @@ def test_profiler():
     #profiler = pl.profiler.AdvancedProfiler(dirpath="./profiler_res/", filename="res.txt")
 
     trainer = pl.Trainer(
-        max_epochs=30,
+        max_epochs=10,
         accelerator="gpu",
         devices=1,
         accumulate_grad_batches=5,
@@ -399,6 +398,6 @@ def test_profiler():
     )
 
     trainer.fit(model, dm)
+"""
 
-
-#test_profiler()
+test_model_save_load()

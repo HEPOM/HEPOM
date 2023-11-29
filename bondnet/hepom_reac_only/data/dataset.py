@@ -7,8 +7,8 @@ from concurrent.futures import TimeoutError
 from pebble import ProcessPool
 from tqdm import tqdm
 from rdkit import Chem, RDLogger
-from hepom_reac_only.data.utils import get_dataset_species, get_rdkit_mols_from_path, get_rdkit_mols_from_list, get_aromatic_label
-from hepom_reac_only.utils import to_path, yaml_load, list_split_by_size
+from bondnet.hepom_reac_only.data.utils import get_dataset_species, get_rdkit_mols_from_path, get_rdkit_mols_from_list, get_aromatic_label
+from bondnet.hepom_reac_only.utils import to_path, yaml_load, list_split_by_size
 logger = RDLogger.logger()
 logger.setLevel(RDLogger.CRITICAL)
 

@@ -15,8 +15,8 @@ from rdkit.Chem import ChemicalFeatures
 from rdkit import RDConfig
 from rdkit.Chem.rdchem import GetPeriodicTable
 import networkx as nx
-from hepom_reac_only.utils import *
-from hepom_reac_only.data.utils import (
+from bondnet.hepom_reac_only.utils import *
+from bondnet.hepom_reac_only.data.utils import (
     one_hot_encoding_bn,
     rdkit_bond_desc,
     h_count_and_degree,

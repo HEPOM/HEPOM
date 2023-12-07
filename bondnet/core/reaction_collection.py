@@ -792,6 +792,7 @@ class ReactionCollection:
 
         return all_feats
 
+
     def create_input_files(
         self,
         mol_file="molecules.sdf",

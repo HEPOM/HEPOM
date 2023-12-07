@@ -26,14 +26,14 @@ torch.multiprocessing.set_sharing_strategy("file_system")
 
 class TrainingObject:
     def __init__(
-        self, sweep_config, log_save_dir, project_name, dataset_loc, lmdb_root, use_lmdb
+        self, sweep_config, log_save_dir, project_name, dataset_loc,
     ):
         self.sweep_config = sweep_config
         self.log_save_dir = log_save_dir
         self.wandb_name = project_name
         self.dataset_loc = dataset_loc
-        self.lmdb_root = lmdb_root
-        self.use_lmdb = use_lmdb
+        #self.lmdb_root = lmdb_root
+        #self.use_lmdb = use_lmdb
 
         # if self.config["parameters"]["on_gpu"]:
         #    self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -63,7 +63,7 @@ class TrainingObject:
                     0
                 ],
                 "overwrite": self.sweep_config["parameters"]["overwrite"]["values"][0],
-                "lmdb_dir": self.lmdb_root,
+                #"lmdb_dir": self.lmdb_root,
             },
             "model": {
                 "classifier": self.sweep_config["parameters"]["classifier"]["values"][
@@ -126,6 +126,7 @@ class TrainingObject:
             #    self.dm_transfer = BondNetLightningDataModuleLMDB(config_transfer)
             # else:
             self.dm_transfer = BondNetLightningDataModule(config_transfer)
+            _, _ = self.dm_transfer.prepare_data()
 
     def make_model(self, config):
         config["model"]["in_feats"] = self.in_feats
@@ -133,6 +134,7 @@ class TrainingObject:
         return model
 
     def train(self):
+
         with wandb.init(project=self.wandb_name) as run:
             init_config = wandb.config
             if "cat_weights" not in init_config:
@@ -185,7 +187,7 @@ class TrainingObject:
                     "feature_names": self.feature_names,
                     "target_var": init_config["target_var"],
                     "overwrite": init_config["overwrite"],
-                    "lmdb_dir": self.lmdb_root,
+                    #"lmdb_dir": self.lmdb_root,
                 },
                 "dataset_transfer": {
                     "data_dir": self.dataset_loc,
@@ -193,7 +195,7 @@ class TrainingObject:
                     "feature_names": self.feature_names,
                     "target_var": init_config["target_var_transfer"],
                     "overwrite": init_config["overwrite"],
-                    "lmdb_dir": self.lmdb_root,
+                    #"lmdb_dir": self.lmdb_root,
                 },
                 "optim": {
                     "batch_size": init_config["batch_size"],
@@ -348,17 +350,17 @@ if __name__ == "__main__":
     parser.add_argument("-log_save_dir", type=str, default="./logs_lightning/")
     parser.add_argument("-project_name", type=str, default="hydro_lightning")
     parser.add_argument("-sweep_config", type=str, default="./sweep_config.json")
-    parser.add_argument("-lmdb_root", type=str, default="./lmdb_out/")
-    parser.add_argument(
-        "--lmdb", default=False, action="store_true", help="use lmdb for dataset"
-    )
+    #parser.add_argument("-lmdb_root", type=str, default="./lmdb_out/")
+    #parser.add_argument(
+    #    "--lmdb", default=False, action="store_true", help="use lmdb for dataset"
+    #)
 
     args = parser.parse_args()
     method = str(args.method)
     # on_gpu = bool(args.on_gpu)
     debug = bool(args.debug)
-    use_lmdb = bool(args.lmdb)
-    lmdb_root = args.lmdb_root
+    #use_lmdb = bool(args.lmdb)
+    #lmdb_root = args.lmdb_root
 
     dataset_loc = args.dataset_loc
     log_save_dir = args.log_save_dir
@@ -381,8 +383,6 @@ if __name__ == "__main__":
         log_save_dir,
         dataset_loc=dataset_loc,
         project_name=wandb_project_name,
-        lmdb_root=lmdb_root,
-        use_lmdb=use_lmdb,
     )
 
     print("method: {}".format(method))

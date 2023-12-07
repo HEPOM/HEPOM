@@ -42,8 +42,8 @@ def get_mol_graphs(row, ind):
 
 
 def main():
-    overwrite = False
-    path_df = "../../dataset/old_datasets/" + "qm_9_merge_3.json"
+    overwrite = True
+    path_df = "/home/santiagovargas/dev/HEPOM/data/Training_set_protonated_HEPoP_after_filtering.json"
     hydro_df = pd.read_json(path_df)
 
     product_list, water_list, reac_list = [], [], []
@@ -63,11 +63,12 @@ def main():
             product_bonds = row.combined_product_bonds_global
         else:
             product_bonds = row.product_bonds
-        if "combined_reactant_bonds_global" in hydro_df.columns:
-            reactant_bonds = row.combined_reactant_bonds_global
+        
+        if "combined_reactants_bonds" in hydro_df.columns:
+            reactant_bonds = row.combined_reactants_bonds
         else:
             reactant_bonds = row.reactant_bonds
-
+        #print(reactant_bonds)
         combined_product_list.append(ast.literal_eval(str(row.combined_products_graph)))
 
         combined_reactant_list.append(
@@ -145,8 +146,8 @@ def main():
     hydro_df["reactant_elements"] = reactant_element_list  # fine
     hydro_df["combined_reactants_graph"] = combined_reactant_list  # fine
     hydro_df["combined_products_graph"] = combined_product_list  # fine
-    hydro_df["product_molecule_graph"] = product_pymat_list  # fine
-    hydro_df["reactant_molecule_graph"] = reactant_pymat_list  # fine
+    hydro_df["product_molecule_graph"] = combined_product_list  # fine
+    hydro_df["reactant_molecule_graph"] = combined_product_list  # fine
 
     if "reactant_symmetry" in hydro_df.columns:
         hydro_df["reactant_symmetry"] = reactant_sym_list  # fine
